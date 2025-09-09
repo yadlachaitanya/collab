@@ -3,289 +3,215 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Adventure Consultant Dashboard</title>
+  <title>Yoga Studio Dashboard</title>
   <style>
-    /* Reset & base */
+    /* Base Reset & Setup */
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      user-select: none;
     }
     body {
-      display: flex;
+      background: linear-gradient(135deg, #c6f7e2, #9ae6b4);
       min-height: 100vh;
-      background-color: #eef6f9;
-      color: #2c3e50;
-    }
-    /* Sidebar */
-    .sidebar {
-      width: 220px;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      padding: 25px 20px;
       display: flex;
       flex-direction: column;
-      gap: 25px;
+      color: #2f4f4f;
     }
-    .sidebar h2 {
-      font-size: 24px;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
+
+    header {
+      padding: 25px 40px;
       text-align: center;
-      user-select: none;
-    }
-    .nav-link {
-      color: #b0bec5;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 12px 15px;
-      border-radius: 8px;
-      transition: background 0.3s ease, color 0.3s ease;
-      user-select: none;
-    }
-    .nav-link:hover,
-    .nav-link.active {
-      background-color: #1abc9c;
-      color: #fff;
-      cursor: pointer;
-    }
-    /* Main content */
-    .main {
-      flex-grow: 1;
-      padding: 30px 40px;
-      overflow-y: auto;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 35px;
-    }
-    .header h1 {
-      font-size: 28px;
+      background-color: rgba(255 255 255 / 0.8);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.1);
       font-weight: 700;
-    }
-    .btn-refresh {
-      padding: 10px 18px;
-      background-color: #1abc9c;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: #276749;
       user-select: none;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    .btn-refresh:hover {
-      background-color: #16a085;
+
+    main {
+      flex: 1;
+      padding: 30px 40px;
+      max-width: 1200px;
+      margin: auto;
     }
-    /* Cards container */
-    .cards {
+
+    /* Stats Cards */
+    .stats {
       display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
+      justify-content: space-around;
       margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 20px;
     }
     .card {
-      background: white;
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      flex: 1 1 250px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      user-select: none;
+      background: rgba(255 255 255 / 0.85);
+      padding: 25px 30px;
+      border-radius: 15px;
+      width: 260px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
     }
     .card h3 {
-      font-weight: 600;
+      color: #2c7a7b;
       margin-bottom: 12px;
-      color: #34495e;
+      font-weight: 700;
+      font-size: 20px;
     }
     .card p {
-      font-size: 32px;
-      font-weight: 700;
-      color: #16a085;
+      font-size: 36px;
+      font-weight: 800;
+      color: #276749;
     }
-    /* Popular Trips Section */
-    .trips-section h2 {
-      margin-bottom: 25px;
-      font-weight: 700;
-      font-size: 22px;
-      color: #2c3e50;
-      user-select: none;
+
+    /* Yoga Images Grid */
+    .images-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 30px;
+      margin-top: 20px;
     }
-    .trips-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+
+    .yoga-img {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      cursor: pointer;
+      animation: floatUpDown 6s ease-in-out infinite;
+      transition: box-shadow 0.3s ease;
+      background-color: white;
     }
-    .trip {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-      padding: 18px 22px;
-      flex: 1 1 280px;
-      display: flex;
-      flex-direction: column;
-      user-select: none;
+    .yoga-img:hover {
+      box-shadow: 0 15px 40px rgba(39,103,73,0.7);
+      animation-play-state: paused;
+      transform: scale(1.05);
+      z-index: 5;
     }
-    .trip img {
+    .yoga-img img {
       width: 100%;
-      border-radius: 10px;
-      margin-bottom: 12px;
+      display: block;
+      border-radius: 20px;
       object-fit: cover;
-      height: 160px;
+      height: 200px;
     }
-    .trip h4 {
-      margin-bottom: 8px;
-      color: #2980b9;
-    }
-    .trip p {
-      font-size: 14px;
-      color: #7f8c8d;
-      flex-grow: 1;
-    }
-    .trip span {
-      margin-top: 10px;
+    .yoga-caption {
+      position: absolute;
+      bottom: 12px;
+      left: 15px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0,0,0,0.6);
       font-weight: 700;
-      color: #27ae60;
+      font-size: 18px;
     }
+
+    /* Animation for floating images */
+    @keyframes floatUpDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+      color: #276749;
+      user-select: none;
+      background: rgba(255 255 255 / 0.6);
+      box-shadow: 0 -4px 8px rgba(0,0,0,0.05);
+    }
+
     /* Responsive */
-    @media (max-width: 900px) {
-      body {
+    @media (max-width: 650px) {
+      .stats {
         flex-direction: column;
+        align-items: center;
       }
-      .sidebar {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 15px 0;
-      }
-      .sidebar h2 {
-        display: none;
-      }
-      .main {
-        padding: 20px;
-      }
-      .cards {
-        flex-direction: column;
-      }
-      .trips-list {
-        flex-direction: column;
+      .card {
+        width: 90%;
       }
     }
   </style>
 </head>
 <body>
 
-  <nav class="sidebar">
-    <h2>🌄 AdventurePro</h2>
-    <a href="#" class="nav-link active" onclick="setActive(this)">Dashboard</a>
-    <a href="#" class="nav-link" onclick="setActive(this)">Trips</a>
-    <a href="#" class="nav-link" onclick="setActive(this)">Clients</a>
-    <a href="#" class="nav-link" onclick="setActive(this)">Settings</a>
-  </nav>
+  <header>🧘 Yoga Studio Dashboard</header>
 
-  <main class="main">
-    <div class="header">
-      <h1>Welcome, Adventure Consultant</h1>
-      <button class="btn-refresh" onclick="refreshData()">🔄 Refresh Data</button>
-    </div>
-
-    <section class="cards">
+  <main>
+    <section class="stats">
       <div class="card">
-        <h3>Active Trips</h3>
-        <p id="activeTrips">15</p>
+        <h3>Active Classes</h3>
+        <p id="activeClasses">24</p>
       </div>
       <div class="card">
-        <h3>New Clients</h3>
-        <p id="newClients">8</p>
+        <h3>New Members</h3>
+        <p id="newMembers">15</p>
       </div>
       <div class="card">
-        <h3>Revenue</h3>
-        <p id="revenue">$9,250</p>
+        <h3>Monthly Revenue</h3>
+        <p id="monthlyRevenue">$5,200</p>
       </div>
     </section>
 
-    <section class="trips-section">
-      <h2>Popular Adventure Trips</h2>
-      <div class="trips-list" id="tripsList">
-        <!-- Trip cards will be generated here -->
-      </div>
+    <section class="images-grid" id="yogaImages">
+      <!-- Yoga poses images injected here -->
     </section>
   </main>
 
+  <footer>© 2025 Yoga Studio. Breathe & Relax.</footer>
+
   <script>
-    // Adventure trips data
-    const trips = [
-      {
-        title: "Mountain Hiking in Nepal",
-        desc: "Experience breathtaking views trekking the Himalayas.",
-        price: 1200,
-        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60"
-      },
-      {
-        title: "Safari Adventure in Kenya",
-        desc: "Get close to the wild on a thrilling safari tour.",
-        price: 1800,
-        img: "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=60"
-      },
-      {
-        title: "Scuba Diving in the Great Barrier Reef",
-        desc: "Explore the colorful underwater world and coral reefs.",
-        price: 1500,
-        img: "https://images.unsplash.com/photo-1508672019048-805c876b67e2?auto=format&fit=crop&w=800&q=60"
-      },
-      {
-        title: "Amazon Rainforest Expedition",
-        desc: "Discover the biodiversity of the Amazon jungle.",
-        price: 1400,
-        img: "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=60"
-      },
-      {
-        title: "Northern Lights in Iceland",
-        desc: "Witness the spectacular aurora borealis in winter.",
-        price: 1100,
-        img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=60"
-      }
+    // Yoga poses data
+    const poses = [
+      { name: "Downward Dog", src: "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&w=800&q=60" },
+      { name: "Tree Pose", src: "https://images.unsplash.com/photo-1540206395-68808572332f?auto=format&fit=crop&w=800&q=60" },
+      { name: "Warrior II", src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60" },
+      { name: "Child's Pose", src: "https://images.unsplash.com/photo-1540206394-56a98a6fc839?auto=format&fit=crop&w=800&q=60" },
+      { name: "Bridge Pose", src: "https://images.unsplash.com/photo-1504030195301-31ac2186a7ee?auto=format&fit=crop&w=800&q=60" },
+      { name: "Cobra Pose", src: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=60" }
     ];
 
-    function loadTrips() {
-      const tripsList = document.getElementById("tripsList");
-      tripsList.innerHTML = "";
-      trips.forEach(trip => {
+    function loadYogaImages() {
+      const container = document.getElementById("yogaImages");
+      container.innerHTML = "";
+      poses.forEach(pose => {
         const div = document.createElement("div");
-        div.className = "trip";
+        div.classList.add("yoga-img");
         div.innerHTML = `
-          <img src="${trip.img}" alt="${trip.title}">
-          <h4>${trip.title}</h4>
-          <p>${trip.desc}</p>
-          <span>$${trip.price}</span>
+          <img src="${pose.src}" alt="${pose.name}" loading="lazy" />
+          <div class="yoga-caption">${pose.name}</div>
         `;
-        tripsList.appendChild(div);
+        container.appendChild(div);
       });
     }
 
-    function refreshData() {
-      // Simulate updating dashboard stats randomly
-      document.getElementById("activeTrips").textContent = Math.floor(Math.random() * 30 + 5);
-      document.getElementById("newClients").textContent = Math.floor(Math.random() * 15 + 3);
-      document.getElementById("revenue").textContent = "$" + (Math.random() * 15000 + 2000).toFixed(2);
-    }
-
-    // Sidebar active link handler
-    function setActive(el) {
-      document.querySelectorAll(".nav-link").forEach(link => link.classList.remove("active"));
-      el.classList.add("active");
+    function randomizeStats() {
+      document.getElementById("activeClasses").textContent = Math.floor(Math.random() * 30 + 10);
+      document.getElementById("newMembers").textContent = Math.floor(Math.random() * 20 + 5);
+      document.getElementById("monthlyRevenue").textContent = "$" + (Math.random() * 8000 + 2000).toFixed(2);
     }
 
     // Initial load
-    loadTrips();
+    loadYogaImages();
+    randomizeStats();
+
+    // Refresh stats every 15 seconds automatically
+    setInterval(randomizeStats, 15000);
   </script>
 
 </body>
 </html>
+
 

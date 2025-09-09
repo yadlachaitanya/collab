@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Restaurant Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 10px 0;
+      border-bottom: 1px solid #34495e;
+    }
+
+    .sidebar a:hover {
+      background-color: #34495e;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .cards {
+      display: flex;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      flex: 1;
+      min-width: 180px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .card p {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2980b9;
+    }
+
+    /* Menu Section */
+    .menu {
+      margin-top: 30px;
+    }
+
+    .menu h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .menu-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .menu-item {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 6px;
+      flex: 1 1 200px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+
+    .menu-item h4 {
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    .menu-item p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .menu-item span {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #27ae60;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .cards {
+        flex-direction: column;
+      }
+
+      .menu-list {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>🍽️ RestoDash</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Orders</a>
+    <a href="#">Menu</a>
+    <a href="#">Reservations</a>
+    <a href="#">Settings</a>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Welcome, Admin</h1>
+      <button onclick="refreshData()">🔄 Refresh</button>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Today's Orders</h3>
+        <p id="orders">120</p>
+      </div>
+      <div class="card">
+        <h3>Total Revenue</h3>
+        <p id="revenue">$2,340</p>
+      </div>
+      <div class="card">
+        <h3>Reservations</h3>
+        <p id="reservations">36</p>
+      </div>
+    </div>
+
+    <div class="menu">
+      <h2>Popular Menu Items</h2>
+      <div class="menu-list" id="menuList">
+        <!-- Menu items will be inserted here dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuItems = [
+      { name: "Margherita Pizza", description: "Classic cheese and tomato", price: 12 },
+      { name: "Caesar Salad", description: "Crisp romaine with creamy dressing", price: 8 },
+      { name: "Grilled Salmon", description: "Served with vegetables", price: 18 },
+      { name: "Beef Burger", description: "Juicy beef patty with fries", price: 10 },
+      { name: "Spaghetti Bolognese", description: "Rich meat sauce pasta", price: 14 }
+    ];
+
+    function loadMenuItems() {
+      const menuList = document.getElementById("menuList");
+      menuList.innerHTML = "";
+      menuItems.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "menu-item";
+        div.innerHTML = `
+          <h4>${item.name}</h4>
+          <p>${item.description}</p>
+          <span>$${item.price}</span>
+        `;
+        menuList.appendChild(div);
+      });
+    }
+
+    function refreshData() {
+      // Simulate data refresh
+      const orders = document.getElementById("orders");
+      const revenue = document.getElementById("revenue");
+      const reservations = document.getElementById("reservations");
+
+      orders.textContent = Math.floor(Math.random() * 200 + 50);
+      revenue.textContent = "$" + (Math.random() * 4000 + 1000).toFixed(2);
+      reservations.textContent = Math.floor(Math.random() * 50 + 10);
+    }
+
+    // Load menu on startup
+    loadMenuItems();
+  </script>
+
+</body>
+</html>
